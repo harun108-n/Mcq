@@ -1,0 +1,701 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>পদার্থবিজ্ঞান MCQ – অধ্যায় ১২</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&display=swap');
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #0f172a;
+    --surface: #1e293b;
+    --card: #263045;
+    --border: #334155;
+    --accent: #38bdf8;
+    --accent2: #818cf8;
+    --correct: #22c55e;
+    --wrong: #ef4444;
+    --text: #e2e8f0;
+    --muted: #94a3b8;
+    --math-bg: #1a2540;
+  }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Hind Siliguri', sans-serif;
+    min-height: 100vh;
+    padding: 20px 16px 60px;
+  }
+
+  header {
+    text-align: center;
+    padding: 32px 0 24px;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 32px;
+  }
+
+  .chapter-tag {
+    display: inline-block;
+    background: linear-gradient(135deg, var(--accent), var(--accent2));
+    color: #0f172a;
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    padding: 4px 14px;
+    border-radius: 20px;
+    margin-bottom: 14px;
+  }
+
+  h1 {
+    font-size: clamp(1.3rem, 4vw, 2rem);
+    font-weight: 700;
+    line-height: 1.3;
+    color: #f1f5f9;
+  }
+
+  h1 span {
+    background: linear-gradient(90deg, var(--accent), var(--accent2));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .meta {
+    margin-top: 10px;
+    font-size: 0.85rem;
+    color: var(--muted);
+  }
+
+  /* Score bar */
+  #scorebar {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 14px 20px;
+    display: flex;
+    gap: 20px;
+    align-items: center;
+    margin-bottom: 28px;
+    flex-wrap: wrap;
+  }
+
+  .score-item { display: flex; flex-direction: column; align-items: center; }
+  .score-num { font-size: 1.6rem; font-weight: 700; line-height: 1; }
+  .score-label { font-size: 0.7rem; color: var(--muted); margin-top: 2px; }
+  .score-num.correct { color: var(--correct); }
+  .score-num.wrong { color: var(--wrong); }
+  .score-num.total { color: var(--accent); }
+
+  .progress-wrap { flex: 1; min-width: 120px; }
+  .progress-bar-bg {
+    background: var(--border);
+    border-radius: 20px;
+    height: 8px;
+    overflow: hidden;
+    margin-bottom: 4px;
+  }
+  .progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--accent), var(--accent2));
+    border-radius: 20px;
+    transition: width 0.4s ease;
+  }
+  .progress-text { font-size: 0.72rem; color: var(--muted); }
+
+  /* Section headers */
+  .section-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin: 32px 0 16px;
+  }
+  .section-header .pill {
+    background: linear-gradient(135deg, var(--accent), var(--accent2));
+    color: #0f172a;
+    font-size: 0.7rem;
+    font-weight: 700;
+    padding: 3px 12px;
+    border-radius: 20px;
+    white-space: nowrap;
+  }
+  .section-header h2 {
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--text);
+  }
+  .section-line { flex: 1; height: 1px; background: var(--border); }
+
+  /* Question card */
+  .q-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    margin-bottom: 16px;
+    overflow: hidden;
+    transition: border-color 0.2s;
+  }
+
+  .q-card.answered-correct { border-color: var(--correct); }
+  .q-card.answered-wrong   { border-color: var(--wrong); }
+
+  .q-header {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 16px 18px 12px;
+  }
+
+  .q-num {
+    background: var(--math-bg);
+    border: 1px solid var(--border);
+    color: var(--accent);
+    font-size: 0.75rem;
+    font-weight: 700;
+    width: 28px;
+    height: 28px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+
+  .q-text {
+    font-size: 0.95rem;
+    line-height: 1.55;
+    color: var(--text);
+    flex: 1;
+  }
+
+  .math-block {
+    background: var(--math-bg);
+    border-left: 3px solid var(--accent2);
+    border-radius: 0 8px 8px 0;
+    padding: 10px 14px;
+    margin: 8px 0 4px;
+    font-size: 0.88rem;
+    color: #c4b5fd;
+    font-style: italic;
+  }
+
+  /* Options */
+  .options { padding: 4px 18px 16px; display: grid; gap: 8px; }
+
+  .opt-btn {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 10px 14px;
+    font-family: inherit;
+    font-size: 0.88rem;
+    color: var(--text);
+    cursor: pointer;
+    text-align: left;
+    display: flex;
+    gap: 10px;
+    align-items: flex-start;
+    transition: background 0.15s, border-color 0.15s, transform 0.1s;
+    line-height: 1.45;
+  }
+
+  .opt-btn:hover:not(:disabled) {
+    background: #2d3f5e;
+    border-color: var(--accent);
+    transform: translateX(2px);
+  }
+
+  .opt-key {
+    background: var(--math-bg);
+    color: var(--accent2);
+    font-size: 0.7rem;
+    font-weight: 700;
+    width: 22px;
+    height: 22px;
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+
+  .opt-btn.correct-ans {
+    background: rgba(34,197,94,0.12);
+    border-color: var(--correct);
+    color: #86efac;
+  }
+  .opt-btn.correct-ans .opt-key { background: rgba(34,197,94,0.2); color: var(--correct); }
+
+  .opt-btn.wrong-ans {
+    background: rgba(239,68,68,0.12);
+    border-color: var(--wrong);
+    color: #fca5a5;
+  }
+  .opt-btn.wrong-ans .opt-key { background: rgba(239,68,68,0.2); color: var(--wrong); }
+
+  .opt-btn:disabled { cursor: default; }
+
+  /* Feedback */
+  .feedback {
+    margin: 0 18px 14px;
+    padding: 10px 14px;
+    border-radius: 8px;
+    font-size: 0.82rem;
+    display: none;
+  }
+  .feedback.show { display: block; }
+  .feedback.correct { background: rgba(34,197,94,0.1); border: 1px solid rgba(34,197,94,0.3); color: #86efac; }
+  .feedback.wrong   { background: rgba(239,68,68,0.1);  border: 1px solid rgba(239,68,68,0.3);  color: #fca5a5; }
+
+  /* Reset button */
+  #reset-btn {
+    display: block;
+    margin: 32px auto 0;
+    background: linear-gradient(135deg, var(--accent), var(--accent2));
+    color: #0f172a;
+    border: none;
+    border-radius: 12px;
+    padding: 12px 32px;
+    font-family: inherit;
+    font-size: 0.95rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: opacity 0.2s, transform 0.15s;
+  }
+  #reset-btn:hover { opacity: 0.88; transform: translateY(-1px); }
+
+  @media (max-width: 480px) {
+    .q-text { font-size: 0.88rem; }
+    .opt-btn { font-size: 0.82rem; padding: 9px 12px; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="chapter-tag">পদার্থবিজ্ঞান</div>
+  <h1>অধ্যায় ১২ – <span>বিদ্যুতের চৌম্বক ক্রিয়া</span></h1>
+  <p class="meta">তত্ত্ব ও গাণিতিক MCQ · মোট প্রশ্ন: ৩০</p>
+</header>
+
+<div id="scorebar">
+  <div class="score-item">
+    <div class="score-num total" id="s-total">০</div>
+    <div class="score-label">উত্তর দেওয়া</div>
+  </div>
+  <div class="score-item">
+    <div class="score-num correct" id="s-correct">০</div>
+    <div class="score-label">সঠিক</div>
+  </div>
+  <div class="score-item">
+    <div class="score-num wrong" id="s-wrong">০</div>
+    <div class="score-label">ভুল</div>
+  </div>
+  <div class="progress-wrap">
+    <div class="progress-bar-bg"><div class="progress-fill" id="prog" style="width:0%"></div></div>
+    <div class="progress-text" id="prog-text">০/৩০ সম্পন্ন</div>
+  </div>
+</div>
+
+<div id="quiz-container"></div>
+
+<button id="reset-btn" onclick="resetQuiz()">🔄 আবার চেষ্টা করো</button>
+
+<script>
+const questions = [
+  // ===== THEORY QUESTIONS (1-20) =====
+  {
+    type: "তত্ত্ব",
+    q: "যে সকল বস্তুর আকর্ষণ ও দিক নির্দেশক ধর্ম আছে তাদেরকে কী বলে?",
+    opts: ["চৌম্বক", "চুম্বক", "সলিনয়েড", "তড়িৎ চুম্বক"],
+    ans: 1,
+    explain: "যে সকল বস্তুর আকর্ষণ ও দিক নির্দেশক ধর্ম আছে তাদেরকে চুম্বক বলে।"
+  },
+  {
+    type: "তত্ত্ব",
+    q: "চুম্বকের কোন ধর্মটি সঠিক?",
+    opts: [
+      "সমমেরু পরস্পরকে আকর্ষণ করে",
+      "বিপরীত মেরু পরস্পরকে আকর্ষণ করে",
+      "বিপরীত মেরু পরস্পরকে বিকর্ষণ করে",
+      "যেকোনো মেরু পরস্পরকে আকর্ষণ করে"
+    ],
+    ans: 1,
+    explain: "সমমেরু পরস্পরকে বিকর্ষণ করে এবং বিপরীত মেরু পরস্পরকে আকর্ষণ করে।"
+  },
+  {
+    type: "তত্ত্ব",
+    q: "নিচের কোনটি চৌম্বক পদার্থ?",
+    opts: ["তামা", "অ্যালুমিনিয়াম", "কোবাল্ট", "রূপা"],
+    ans: 2,
+    explain: "লোহা, নিকেল, কোবাল্ট — এগুলো চৌম্বক পদার্থ। তামা ও অ্যালুমিনিয়াম চৌম্বক নয়।"
+  },
+  {
+    type: "তত্ত্ব",
+    q: "বিদ্যুতের চৌম্বক ক্রিয়া আবিষ্কার করেন কে এবং কখন?",
+    opts: ["ফ্যারাডে, ১৮৩১ সালে", "ওয়েরস্টেড, ১৮২০ সালে", "ম্যাক্সওয়েল, ১৮৬৫ সালে", "ফ্লেমিং, ১৮৯০ সালে"],
+    ans: 1,
+    explain: "১৮২০ সালে ওয়েরস্টেড বিদ্যুতের চৌম্বক ক্রিয়া আবিষ্কার করেন।"
+  },
+  {
+    type: "তত্ত্ব",
+    q: "ম্যাক্সওয়েলের কর্ক-স্ক্রু সূত্র অনুযায়ী চৌম্বক বলরেখার দিক কীভাবে নির্ণয় করা যায়?",
+    opts: [
+      "বাম হাতে তার ধরে বুড়া আঙুল যেদিকে থাকে",
+      "পরিবাহীর যেদিকে কারেন্ট প্রবাহিত হয় সেদিকে ডান হাতে কর্ক-স্ক্রু ঘুরালে বুড়া আঙুলি যেদিকে ঘোরে",
+      "বুড়া আঙুলকে কারেন্টের বিপরীতে রাখলে আঙুলগুলো যেদিকে কার্ল করে",
+      "ডান হাতের তর্জনী কারেন্টের দিকে রাখলে মধ্যমা যেদিকে নির্দেশ করে"
+    ],
+    ans: 1,
+    explain: "ম্যাক্সওয়েলের কর্ক-স্ক্রু সূত্র: পরিবাহীর যেদিকে কারেন্ট প্রবাহিত হয়, সেদিকে ডান হাতে কর্ক-স্ক্রু ঘুরালে বুড়া আঙুলি যেদিকে ঘোরে সেদিকে চৌম্বক বলরেখার দিক।"
+  },
+  {
+    type: "তত্ত্ব",
+    q: "কাছাকাছি বা ঘন সন্নিবিষ্ট প্যাঁচযুক্ত লম্বা বেলনাকার কয়েল বা তারকা কুণ্ডলীকে কী বলে?",
+    opts: ["ট্রান্সফর্মার", "জেনারেটর", "সলিনয়েড", "আর্মেচার"],
+    ans: 2,
+    explain: "কাছাকাছি বা ঘন সন্নিবিষ্ট প্যাঁচযুক্ত লম্বা বেলনাকার কয়েল বা তারকা কুণ্ডলীকে সলিনয়েড বলে।"
+  },
+  {
+    type: "তত্ত্ব",
+    q: "সলিনয়েডের ব্যবহার নয় কোনটি?",
+    opts: ["বৈদ্যুতিক ঘণ্টা", "দেয়াল ঘড়ির রিল", "বৈদ্যুতিক মোটর", "ট্রান্সফর্মার"],
+    ans: 3,
+    explain: "সলিনয়েডের ব্যবহার: বৈদ্যুতিক ঘণ্টা, দেয়াল ঘড়ির রিল, বৈদ্যুতিক মোটর। ট্রান্সফর্মার ভিন্ন নীতিতে কাজ করে।"
+  },
+  {
+    type: "তত্ত্ব",
+    q: "মোটর হলো এমন একটি কৌশল যার মাধ্যমে —",
+    opts: [
+      "যান্ত্রিক শক্তিকে তাপশক্তিতে রূপান্তর করা হয়",
+      "বৈদ্যুতিক শক্তিকে যান্ত্রিক শক্তিতে রূপান্তর করা হয়",
+      "যান্ত্রিক শক্তিকে বৈদ্যুতিক শক্তিতে রূপান্তর করা হয়",
+      "তাপশক্তিকে বৈদ্যুতিক শক্তিতে রূপান্তর করা হয়"
+    ],
+    ans: 1,
+    explain: "মোটর হলো একটি কৌশল যার মাধ্যমে বৈদ্যুতিক শক্তিকে যান্ত্রিক শক্তিতে রূপান্তর করা হয়।"
+  },
+  {
+    type: "তত্ত্ব",
+    q: "DC মোটরে আর্মেচার কুণ্ডলীর সাথে কোনটি অভ্যন্তরীণভাবে চেপে আঁটা থাকে?",
+    opts: ["স্লিপ রিং", "কার্বন ব্রাশ", "কমিউটেটর (স্প্লিটিং রিং)", "ব্যাটারি"],
+    ans: 2,
+    explain: "আর্মেচার কুণ্ডলী যে অক্ষে ঘোরে সেই অক্ষদ্বয়ের গায়ে সমান দুখণ্ড করা একটি ধাতব আংটা (স্প্লিটিং কমিউটেটর) অন্তরিতভাবে চেপে আঁটা থাকে।"
+  },
+  {
+    type: "তত্ত্ব",
+    q: "DC মোটরের শক্তি বাড়ানো যায় —",
+    opts: [
+      "শুধু চুম্বকের শক্তি বাড়িয়ে",
+      "চুম্বকের শক্তি বাড়িয়ে, তড়িৎ প্রবাহের মাত্রা বাড়িয়ে কিংবা কুণ্ডলীতে পাকসংখ্যা বাড়িয়ে",
+      "শুধু কুণ্ডলীতে পাকসংখ্যা কমিয়ে",
+      "ভোল্টেজ কমিয়ে"
+    ],
+    ans: 1,
+    explain: "চুম্বকের শক্তি বাড়িয়ে, তড়িৎ প্রবাহের মাত্রা বাড়িয়ে কিংবা কুণ্ডলীতে পাকসংখ্যা বাড়িয়ে মোটরের শক্তি বাড়ানো যায়।"
+  },
+  {
+    type: "তত্ত্ব",
+    q: "তড়িৎ চৌম্বক আবেশে উৎপন্ন ভোল্টেজকে কী বলা হয়?",
+    opts: ["প্রকৃত ভোল্টেজ", "আবিষ্ট ভোল্টেজ", "চৌম্বক ভোল্টেজ", "সর্বোচ্চ ভোল্টেজ"],
+    ans: 1,
+    explain: "তড়িৎ চৌম্বক আবেশের ফলে সৃষ্ট ভোল্টেজকে আবিষ্ট ভোল্টেজ এবং বিদ্যুৎ প্রবাহকে আবিষ্ট বিদ্যুৎ প্রবাহ বলে।"
+  },
+  {
+    type: "তত্ত্ব",
+    q: "চৌম্বকক্ষেত্র পরিবর্তন না হলে কয়েলে কী ঘটে?",
+    opts: [
+      "বিদ্যুৎ উৎপন্ন হয়",
+      "বিদ্যুৎ উৎপন্ন হয় না",
+      "তাপ উৎপন্ন হয়",
+      "চৌম্বকক্ষেত্র শক্তিশালী হয়"
+    ],
+    ans: 1,
+    explain: "মনে রাখতে হবে, চৌম্বকক্ষেত্র পরিবর্তন হলেই কেবলমাত্র বিদ্যুৎ উৎপন্ন হয়। পরিবর্তন না হলে বিদ্যুৎ উৎপন্ন হবে না।"
+  },
+  {
+    type: "তত্ত্ব",
+    q: "AC জেনারেটরে আর্মেচার কুণ্ডলীর দুই প্রান্ত কীসের সাথে সংযুক্ত থাকে?",
+    opts: ["কমিউটেটরের", "স্লিপ রিংয়ের", "কার্বন ব্রাশের", "বাহ্যিক রোধের"],
+    ans: 1,
+    explain: "AC জেনারেটরে আয়তাকার কুণ্ডলীর দুই প্রান্ত দুইটি স্লিপ রিংয়ের সাথে সংযুক্ত থাকে।"
+  },
+  {
+    type: "তত্ত্ব",
+    q: "জেনারেটরকে মোটরের বিপরীত যন্ত্র বলা হয় কেন?",
+    opts: [
+      "কারণ জেনারেটর বৈদ্যুতিক শক্তিকে যান্ত্রিক শক্তিতে রূপান্তর করে",
+      "কারণ জেনারেটর যান্ত্রিক শক্তিকে তড়িৎ শক্তিতে রূপান্তর করে, মোটর বিপরীত কাজ করে",
+      "কারণ উভয়ই একই নীতিতে কাজ করে",
+      "কারণ মোটর AC এবং জেনারেটর DC উৎপন্ন করে"
+    ],
+    ans: 1,
+    explain: "জেনারেটর যান্ত্রিক শক্তিকে তড়িৎ শক্তিতে রূপান্তর করে, অপরদিকে মোটর তড়িৎ শক্তিকে যান্ত্রিক শক্তিতে রূপান্তর করে — তাই বিপরীত যন্ত্র।"
+  },
+  {
+    type: "তত্ত্ব",
+    q: "যে যন্ত্রের সাহায্যে পর্যায়বৃত্ত উচ্চ বিভবকে নিম্ন বিভবে বা নিম্ন বিভবকে উচ্চ বিভবে রূপান্তর করা হয় তাকে কী বলে?",
+    opts: ["মোটর", "জেনারেটর", "ট্রান্সফর্মার", "সলিনয়েড"],
+    ans: 2,
+    explain: "ট্রান্সফর্মার পর্যায়বৃত্ত উচ্চ বিভবকে নিম্ন বিভবে বা নিম্ন বিভবকে উচ্চ বিভবে রূপান্তর করে।"
+  },
+  {
+    type: "তত্ত্ব",
+    q: "স্টেপ-আপ (আরোহী) ট্রান্সফর্মারের বৈশিষ্ট্য কোনটি?",
+    opts: [
+      "মুখ্য কুণ্ডলীতে পাকসংখ্যা গৌণ কুণ্ডলীর চেয়ে বেশি",
+      "গৌণ কুণ্ডলীতে পাকসংখ্যা মুখ্য কুণ্ডলীর চেয়ে বেশি",
+      "মুখ্য ও গৌণ কুণ্ডলীতে সমান পাকসংখ্যা",
+      "গৌণ কুণ্ডলীতে তড়িৎ প্রবাহ বেশি"
+    ],
+    ans: 1,
+    explain: "স্টেপ-আপ ট্রান্সফর্মারে গৌণ কুণ্ডলীতে পাকসংখ্যা মুখ্য কুণ্ডলীর চেয়ে বেশি থাকে।"
+  },
+  {
+    type: "তত্ত্ব",
+    q: "ট্রান্সফর্মার শুধুমাত্র পর্যায়বৃত্ত ভোল্টেজ পরিবর্তন করতে পারে কেন?",
+    opts: [
+      "কারণ DC সহজে চৌম্বকক্ষেত্র তৈরি করে",
+      "কারণ DC ভোল্টেজ প্রয়োগ করলে চৌম্বকক্ষেত্রের পরিবর্তন হয় না, তাই গৌণ কুণ্ডলীতে আবিষ্ট বিদ্যুৎ তৈরি হয় না",
+      "কারণ AC কোরে শক্তি সঞ্চয় করে",
+      "কারণ ট্রান্সফর্মারে স্লিপ রিং নেই"
+    ],
+    ans: 1,
+    explain: "DC ভোল্টেজ প্রয়োগে চৌম্বকক্ষেত্র পরিবর্তিত হয় না, তাই গৌণ কুণ্ডলীতে আবেশ ঘটে না। AC-তে ক্রমাগত পরিবর্তন হয় বলেই আবেশ সম্ভব।"
+  },
+  {
+    type: "তত্ত্ব",
+    q: "তড়িৎ পরিবহনে ট্রান্সফর্মার ব্যবহার করার কারণ কী?",
+    opts: [
+      "বিদ্যুৎ সংরক্ষণের জন্য",
+      "কম বিভবের উচ্চ মানের তড়িৎ প্রবাহে তাপ উৎপন্ন হয় বলে অপচয় রোধ করতে উচ্চ বিভবে নিম্ন তড়িৎ প্রেরণ করা হয়",
+      "বিদ্যুৎ দ্রুত প্রেরণের জন্য",
+      "তারের রোধ কমানোর জন্য"
+    ],
+    ans: 1,
+    explain: "কম বিভবে উচ্চ মানের তড়িৎ তারে প্রবাহিত করলে তাপ উৎপন্ন হয়, যা তারের রোধ বাড়িয়ে বিদ্যুতের অপচয় ঘটায়। এই অপচয় রোধে উচ্চ বিভবে নিম্ন মানের তড়িৎ দূরে প্রেরণ করা হয়।"
+  },
+  {
+    type: "তত্ত্ব",
+    q: "ট্রান্সফর্মারের ক্ষমতা ধ্রুব থাকার কারণ কী?",
+    opts: [
+      "কারণ ট্রান্সফর্মার শক্তি সঞ্চয় করে",
+      "কারণ যে হারে ভোল্টেজ বৃদ্ধি পায় সেই একই হারে কারেন্ট হ্রাস পায়, ফলে P = VI ধ্রুব থাকে",
+      "কারণ মুখ্য ও গৌণ কুণ্ডলীতে পাকসংখ্যা সমান",
+      "কারণ ট্রান্সফর্মার DC ব্যবহার করে না"
+    ],
+    ans: 1,
+    explain: "সংজ্ঞানুযায়ী N = VI। যেহেতু Vp/Vs = Is/Ip, তাই VpIp = VsIs, অর্থাৎ Pin = Pout — ট্রান্সফর্মারের ক্ষমতা ধ্রুব।"
+  },
+  {
+    type: "তত্ত্ব",
+    q: "চৌম্বকক্ষেত্রের তীব্রতা কীসের উপর নির্ভর করে?",
+    opts: [
+      "শুধু তড়িৎ প্রবাহের উপর",
+      "তড়িৎ প্রবাহ ও দূরত্বের উপর",
+      "শুধু দূরত্বের উপর",
+      "চুম্বকের ভরের উপর"
+    ],
+    ans: 1,
+    explain: "চৌম্বকক্ষেত্রে তীব্রতা তড়িৎ প্রবাহ এবং দূরত্বের উপর নির্ভর করে।"
+  },
+  // ===== MATHEMATICAL QUESTIONS (21-30) =====
+  {
+    type: "গাণিতিক",
+    q: "একটি ট্রান্সফর্মারের মুখ্য কুণ্ডলীর পাকসংখ্যা ১০০ এবং গৌণ কুণ্ডলীর পাকসংখ্যা ২০০। মুখ্য কুণ্ডলীতে ভোল্টেজ ২২০ V হলে গৌণ কুণ্ডলীতে ভোল্টেজ কত?",
+
+    opts: ["১১০ V", "২২০ V", "৪৪০ V", "৬৬০ V"],
+    ans: 2,
+    explain: "Using Vp/Vs = Np/Ns, Vs = (Ns/Np) × Vp = (200/100) × 220 = 2 × 220 = 440 V"
+  },
+  {
+    type: "গাণিতিক",
+    q: "একটি ট্রান্সফর্মারের মুখ্য কুণ্ডলীর পাকসংখ্যা ৫০, ভোল্টেজ ২১০ V। গৌণ কুণ্ডলীর পাকসংখ্যা ১০০ হলে গৌণ ভোল্টেজ কত?",
+
+    opts: ["১০৫ V", "২১০ V", "৩১৫ V", "৪২০ V"],
+    ans: 3,
+    explain: "Using Vp/Vs = Np/Ns, Vs = (Ns/Np) × Vp = (100/50) × 210 = 2 × 210 = 420 V"
+  },
+  {
+    type: "গাণিতিক",
+    q: "একটি ট্রান্সফর্মারের মুখ্য কুণ্ডলীতে ভোল্টেজ ১০ V, প্রবাহ ৬ A। গৌণ কুণ্ডলীর ভোল্টেজ ২০ V হলে গৌণ কুণ্ডলীর প্রবাহ কত?",
+
+    opts: ["১ A", "২ A", "৩ A", "৬ A"],
+    ans: 2,
+    explain: "Using Vp/Vs = Is/Ip, Is = (Vp/Vs) × Ip = (10/20) × 6 = 0.5 × 6 = 3 A"
+  },
+  {
+    type: "গাণিতিক",
+    q: "একটি ট্রান্সফর্মারের মুখ্য কুণ্ডলীর পাকসংখ্যা ১৫ এবং গৌণ কুণ্ডলীর পাকসংখ্যা ৯০। মুখ্য কুণ্ডলীর তড়িৎ প্রবাহ ৫ A হলে গৌণ কুণ্ডলীর প্রবাহ কত?",
+
+    opts: ["১/৬ A", "৫/৬ A", "৫ A", "১৮ A"],
+    ans: 1,
+    explain: "Using Is/Ip = Np/Ns, Is = (Np/Ns) × Ip = (15/90) × 5 = (1/6) × 5 = 5/6 A"
+  },
+  {
+    type: "গাণিতিক",
+    q: "একটি স্টেপ-আপ ট্রান্সফর্মারে ২২০ V সরবরাহ করলে ৩ A প্রবাহ পাওয়া গেল। মুখ্য ও গৌণ কুণ্ডলীর পাক সংখ্যার অনুপাত ১:২৫ হলে গৌণ কুণ্ডলীতে ভোল্টেজ কত?",
+
+    opts: ["৮৮০ V", "২২০০ V", "৫৫০০ V", "১১০০০ V"],
+    ans: 2,
+    explain: "Given Ns/Np = 25, Vs = (Ns/Np) × Vp = 25 × 220 = 5500 V"
+  },
+  {
+    type: "গাণিতিক",
+    q: "উপরের প্রশ্নে (পাক অনুপাত ১:২৫, গৌণ প্রবাহ ৩A, মুখ্য ভোল্টেজ ২২০V) ট্রান্সফর্মারের বহিঃক্ষমতা কত?",
+
+    opts: ["৬৬০ W", "৩৩০০ W", "১৬৫০০ W", "৪৫০০ W"],
+    ans: 2,
+    explain: "Power P = Vs × Is = 5500 × 3 = 16500 W"
+  },
+  {
+    type: "গাণিতিক",
+    q: "একটি ট্রান্সফর্মারের গৌণ কুণ্ডলীর ভোল্টেজ ১০ V, প্রবাহ ১.৫ A এবং মুখ্য কুণ্ডলীর প্রবাহ ৩ A। মুখ্য কুণ্ডলীর ভোল্টেজ কত?",
+
+    opts: ["২ V", "৫ V", "১০ V", "২০ V"],
+    ans: 1,
+    explain: "Using Vp/Vs = Is/Ip, Vp = (Is/Ip) × Vs = (1.5/3) × 10 = 0.5 × 10 = 5 V"
+  },
+  {
+    type: "গাণিতিক",
+    q: "একটি ট্রান্সফর্মারের মুখ্য কুণ্ডলীর পাকসংখ্যা ৩০ এবং প্রবাহ ১০ A। গৌণ কুণ্ডলীর পাকসংখ্যা ১৮০ হলে গৌণ কুণ্ডলীর প্রবাহ কত?",
+
+    opts: ["০.৫ A", "১.৬৬৭ A", "৩ A", "৬০ A"],
+    ans: 1,
+    explain: "Is = (Np/Ns) × Ip = (30/180) × 10 = (1/6) × 10 ≈ 1.667 A"
+  },
+  {
+    type: "গাণিতিক",
+    q: "একটি ট্রান্সফর্মারের মুখ্য কুণ্ডলীর পাকসংখ্যা ১০০ ও ভোল্টেজ ২২০V, গৌণ কুণ্ডলীর পাকসংখ্যা ৫০০ এবং গৌণ প্রবাহ ৫A হলে মুখ্য কুণ্ডলীর প্রবাহ কত?",
+
+    opts: ["১ A", "৫ A", "২৫ A", "৫০ A"],
+    ans: 2,
+    explain: "Ip = (Ns × Is)/Np = (500 × 5)/100 = 2500/100 = 25 A"
+  },
+  {
+    type: "গাণিতিক",
+    q: "একটি ট্রান্সফর্মারের মুখ্য কুণ্ডলীতে পাকসংখ্যা x টি এবং গৌণ কুণ্ডলীতে x/7 টি। মুখ্য কুণ্ডলীতে ১০০১ V প্রয়োগ করা হলে গৌণ কুণ্ডলীর ভোল্টেজ কত?",
+
+    opts: ["৭০ V", "১০০.১ V", "১৪৩ V", "৭০০৭ V"],
+    ans: 2,
+    explain: "Vs = (Ns/Np) × Vp = (1/7) × 1001 = 143 V"
+  }
+];
+
+let correctCount = 0;
+let wrongCount = 0;
+let answeredCount = 0;
+
+function toBengaliNum(n) {
+  const d = ['০','১','২','৩','৪','৫','৬','৭','৮','৯'];
+  return String(n).replace(/\d/g, x => d[x]);
+}
+
+function buildQuiz() {
+  const container = document.getElementById('quiz-container');
+  container.innerHTML = '';
+
+  // Group by type
+  const groups = {
+    "তত্ত্ব": [],
+    "গাণিতিক": []
+  };
+  questions.forEach((q, i) => groups[q.type].push({...q, idx: i}));
+
+  Object.entries(groups).forEach(([type, qs]) => {
+    const secDiv = document.createElement('div');
+    const icons = { "তত্ত্ব": "📚", "গাণিতিক": "🔢" };
+    const counts = { "তত্ত্ব": "প্রশ্ন ১–২০", "গাণিতিক": "প্রশ্ন ২১–৩০" };
+    secDiv.innerHTML = `
+      <div class="section-header">
+        <div class="pill">${icons[type]} ${type}</div>
+        <h2>${counts[type]}</h2>
+        <div class="section-line"></div>
+      </div>`;
+    container.appendChild(secDiv);
+
+    qs.forEach(q => {
+      const card = document.createElement('div');
+      card.className = 'q-card';
+      card.id = `card-${q.idx}`;
+
+      const optKeys = ['ক', 'খ', 'গ', 'ঘ'];
+      const optHTML = q.opts.map((o, i) =>
+        `<button class="opt-btn" id="opt-${q.idx}-${i}" onclick="choose(${q.idx}, ${i})">
+          <span class="opt-key">${optKeys[i]}</span>
+          <span>${o}</span>
+        </button>`
+      ).join('');
+
+
+
+      card.innerHTML = `
+        <div class="q-header">
+          <div class="q-num">${toBengaliNum(q.idx + 1)}</div>
+          <div class="q-text">${q.q}</div>
+        </div>
+        <div class="options">${optHTML}</div>
+        <div class="feedback" id="fb-${q.idx}"></div>`;
+      container.appendChild(card);
+    });
+  });
+  updateScore();
+}
+
+function choose(qIdx, optIdx) {
+  const q = questions[qIdx];
+  const card = document.getElementById(`card-${qIdx}`);
+
+  // Disable all options for this question
+  q.opts.forEach((_, i) => {
+    const btn = document.getElementById(`opt-${qIdx}-${i}`);
+    btn.disabled = true;
+  });
+
+  const chosen = document.getElementById(`opt-${qIdx}-${optIdx}`);
+  const correctBtn = document.getElementById(`opt-${qIdx}-${q.ans}`);
+  const fb = document.getElementById(`fb-${qIdx}`);
+
+  if (optIdx === q.ans) {
+    chosen.classList.add('correct-ans');
+    card.classList.add('answered-correct');
+    fb.textContent = '✅ সঠিক উত্তর! ' + q.explain;
+    fb.className = 'feedback show correct';
+    correctCount++;
+  } else {
+    chosen.classList.add('wrong-ans');
+    correctBtn.classList.add('correct-ans');
+    card.classList.add('answered-wrong');
+    fb.textContent = '❌ ভুল হয়েছে। ' + q.explain;
+    fb.className = 'feedback show wrong';
+    wrongCount++;
+  }
+  answeredCount++;
+  updateScore();
+}
+
+function updateScore() {
+  document.getElementById('s-total').textContent = toBengaliNum(answeredCount);
+  document.getElementById('s-correct').textContent = toBengaliNum(correctCount);
+  document.getElementById('s-wrong').textContent = toBengaliNum(wrongCount);
+  const pct = Math.round((answeredCount / questions.length) * 100);
+  document.getElementById('prog').style.width = pct + '%';
+  document.getElementById('prog-text').textContent =
+    `${toBengaliNum(answeredCount)}/${toBengaliNum(questions.length)} সম্পন্ন`;
+}
+
+function resetQuiz() {
+  correctCount = 0; wrongCount = 0; answeredCount = 0;
+  buildQuiz();
+}
+
+buildQuiz();
+</script>
+</body>
+</html>
